@@ -5,7 +5,6 @@ import java.util.List;
  * Represents a User of the system.
  * Users can be both students and teachers simultaneously.
  * @author revan
- *
  */
 public class User {
 	private List<User> students = new LinkedList<User>();

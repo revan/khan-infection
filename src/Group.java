@@ -3,7 +3,6 @@ import java.util.Collection;
 /**
  * Represents a distinct group of interconnected users.
  * @author revan
- *
  */
 public class Group implements Comparable<Group> {
 	private Collection<User> members;
