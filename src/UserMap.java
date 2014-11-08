@@ -1,6 +1,7 @@
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -20,17 +21,21 @@ public class UserMap {
 	private final double PROB_TEACHER = 0.3;
 	
 	/** The probability that any student has a second teacher. */
-	private final double PROB_SECOND = 0.1;
+	private final double PROB_SECOND = 0.01;
 	
 	private static Random random = new Random();
 	
 	/** The list of users who have no teachers. */
 	private List<User> heads = new ArrayList<>();
 	
+	/** HashMap <ID, User> holding all users */
+	private HashMap<Integer, User> users = new HashMap<>();
+	
 	public UserMap() {
 		for (int i = 0; i < NUM_DISCONNECTED_GROUPS; i++) {
 			User user = new User();
 			heads.add(user);
+			users.put(user.getId(), user);
 			maybeCreateStudents(user, 1);
 		}
 	}
@@ -51,6 +56,7 @@ public class UserMap {
 				User student = new User();
 				teacher.addStudent(student);
 				student.addTeacher(teacher);
+				users.put(student.getId(), student);
 				
 				maybeCreateStudents(student, usersInGroup);
 			}
@@ -97,5 +103,35 @@ public class UserMap {
 				printRelations(teacher, visited, out);
 			}
 		}
+	}
+	
+	/**
+	 * Recursively searches graph to find all users related by coaching/coached relationships.
+	 * @param user a user in the graph.
+	 * @return a Collection<User> containing all users in the group.
+	 */
+	public static Collection<User> getRelations(User user) {
+		HashMap<Integer, User> visited = new HashMap<>();
+		getRelations(user, visited);
+		return visited.values();
+	}
+	
+	private static void getRelations(User user, HashMap<Integer, User> visited) {
+		if (visited.put(user.getId(), user) == null) {
+			for (User student : user.getStudents()) {
+				getRelations(student, visited);
+			}
+			for (User teacher : user.getTeachers()) {
+				getRelations(teacher, visited);
+			}
+		}
+	}
+	
+	/**
+	 * @param userId
+	 * @return the corresponding user
+	 */
+	public User getUser(int userId) {
+		return users.get(userId);
 	}
 }

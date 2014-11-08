@@ -53,4 +53,11 @@ public class User {
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * @return number of unique Users
+	 */
+	public static int getNumUsers() {
+		return numberOfUsers;
+	}
 }
