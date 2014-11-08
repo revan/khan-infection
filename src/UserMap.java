@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Generates and represents the graph of interconnected users.
+ * @author revan
+ */
 public class UserMap {
 	/** The maximum users in any disconnected group. Keeps data set small. */
 	private final int NUM_USERS_PER_GROUP = 15;
@@ -26,7 +29,7 @@ public class UserMap {
 	private static Random random = new Random();
 	
 	/** The list of users who have no teachers. */
-	private List<User> heads = new ArrayList<>();
+	private ArrayList<User> heads = new ArrayList<>();
 	
 	/** HashMap <ID, User> holding all users */
 	private HashMap<Integer, User> users = new HashMap<>();
@@ -133,5 +136,9 @@ public class UserMap {
 	 */
 	public User getUser(int userId) {
 		return users.get(userId);
+	}
+	
+	public ArrayList<User> getHeads() {
+		return heads;
 	}
 }
